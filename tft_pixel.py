@@ -107,11 +107,11 @@ def main():
     XPButton = (398, 952)
     refreshButton = (395, 1022)
     championCard = (582, 992)
-    exitNowButton = (898, 551)
+    exitNowButton = (900, 550)
     continueButton = (963, 643)
     # Colors
     refreshButtonColor = (71, 65, 44)
-    exitNowButtonColor = (19, 102, 138)
+    exitNowButtonColor = (8, 81, 99)
     continueButtonColor = (132, 19, 16)
 
     while True:
@@ -122,7 +122,8 @@ def main():
         # Start queue
         sleep(3)
         print("Starting queue")
-        autolol.ClickInClient(startButton)
+        for i in range(0, 3):
+            autolol.ClickInClient(startButton, 1)
 
         # Accept queue
         while win32gui.FindWindow(None, "League of Legends (TM) Client") == 0:
@@ -154,28 +155,27 @@ def main():
             # If refresh champion cards button exists, level up and buy champions
             else:
                 if autolol.CheckColor(refreshButton) == refreshButtonColor:
-                    print("Buying XP")
-                    autolol.ClickInClient(XPButton)
                     # Iterate over all champion cards
                     for champion in range(580, 1510, 200):
                         print("Buying champion")
                         autolol.ClickInClient((champion, championCard[1]))
+                    print("Buying XP")
+                    autolol.ClickInClient(XPButton)
                     pyautogui.moveTo(
-                        ((autolol.x + autolol.w / 2), (autolol.y + autolol.h / 2))
+                        ((autolol.x + autolol.w / 2), (autolol.y + autolol.h / 2 - 150))
                     )
-                    sleep(20)
                 
-
         # Wait for Client to load
         sleep(15)
         print("Updating window handle to Client")
         autolol.UpdateHwnd("League of Legends")
 
         # Press OKButton button if it exists
+        autolol.WindowInfo()
         while autolol.CheckColor(playAgainButton) != playAgainButtonColor:
             autolol.ClickInClient(OKButton, 2)
         # Press Play Again
-        autolol.ClickInClient(playAgainButton, 2)
+        autolol.ClickInClient(playAgainButton, 3)
 
         gameCount += 1
 
